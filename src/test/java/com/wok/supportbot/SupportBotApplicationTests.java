@@ -76,5 +76,13 @@ class SupportBotApplicationTests {
         Assertions.assertNotNull(answer);
     }
 
+    @Test
+    void doChatWithRagEnhance() {
+        String chatId = "1069b88d-eb85-47ac-bd2e-c393d118a5aa";
+        String message = "我之前询问了你什么问题？";
+        String answer =  assistantApp.doChatWithRagEnhance(message, chatId);
+        Assertions.assertNotNull(answer);
+    }
+
 
 }

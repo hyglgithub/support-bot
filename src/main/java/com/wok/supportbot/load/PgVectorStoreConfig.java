@@ -22,9 +22,9 @@ import static org.springframework.ai.vectorstore.pgvector.PgVectorStore.PgIndexT
 public class PgVectorStoreConfig {
 
     @Bean
-    @Primary
+    @Primary // 默认使用pgsql储存向量
     public VectorStore pgVectorVectorStore(JdbcTemplate jdbcTemplate, EmbeddingModel dashscopeEmbeddingModel) {
-        VectorStore vectorStore = PgVectorStore.builder(jdbcTemplate, dashscopeEmbeddingModel)
+        return PgVectorStore.builder(jdbcTemplate, dashscopeEmbeddingModel)
                 .dimensions(1536)                    // Optional: defaults to model dimensions or 1536
                 .distanceType(COSINE_DISTANCE)       // Optional: defaults to COSINE_DISTANCE
                 .indexType(HNSW)                     // Optional: defaults to HNSW
@@ -33,6 +33,5 @@ public class PgVectorStoreConfig {
                 .vectorTableName("vector_store")     // Optional: defaults to "vector_store"
                 .maxDocumentBatchSize(10000)         // Optional: defaults to 10000
                 .build();
-        return vectorStore;
     }
 }
