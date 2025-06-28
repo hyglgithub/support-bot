@@ -70,8 +70,8 @@ class SupportBotApplicationTests {
 
     @Test
     void doChatWithRag() {
-        String chatId = UUID.randomUUID().toString();
-        String message = "T恤怎么搭配？";
+        String chatId = "1069b88d-eb85-47ac-bd2e-c393d118a5aa";
+        String message = "我之前询问了你什么问题？";
         String answer =  assistantApp.doChatWithRag(message, chatId);
         Assertions.assertNotNull(answer);
     }

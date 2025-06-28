@@ -1,6 +1,7 @@
 package com.wok.supportbot.app;
 
 import com.wok.supportbot.advisor.MyLoggerAdvisor;
+import com.wok.supportbot.chatmemory.DatabaseChatMemory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -39,12 +40,13 @@ public class AssistantApp {
      * 初始化 ChatClient
      * @param dashscopeChatModel
      */
-    public AssistantApp(ChatModel dashscopeChatModel) {
+    public AssistantApp(ChatModel dashscopeChatModel, DatabaseChatMemory chatMemory) {
         // 初始化基于文件的对话记忆
         //String fileDir = System.getProperty("user.dir") + "/tmp/chat-memory";
         //ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
         // 初始化基于内存的对话记忆
-        ChatMemory chatMemory = new InMemoryChatMemory();
+        // ChatMemory chatMemory = new InMemoryChatMemory();
+
         chatClient = ChatClient.builder(dashscopeChatModel)
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
@@ -71,9 +73,7 @@ public class AssistantApp {
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .call()
                 .chatResponse();
-        String content = chatResponse.getResult().getOutput().getText();
-        //log.info("content: {}", content);
-        return content;
+        return chatResponse.getResult().getOutput().getText();
     }
 
 
@@ -89,14 +89,10 @@ public class AssistantApp {
                 .user(message)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
-                // 开启日志，便于观察效果
-                .advisors(new MyLoggerAdvisor())
                 // 应用 RAG 知识库问答
                 .advisors(new QuestionAnswerAdvisor(vectorStore))
                 .call()
                 .chatResponse();
-        String content = chatResponse.getResult().getOutput().getText();
-        log.info("content: {}", content);
-        return content;
+        return chatResponse.getResult().getOutput().getText();
     }
 }

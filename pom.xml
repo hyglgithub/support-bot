@@ -101,6 +101,11 @@
             <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
             <version>1.0.0-M7</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.12</version>
+        </dependency>
     </dependencies>
 
     <build>
