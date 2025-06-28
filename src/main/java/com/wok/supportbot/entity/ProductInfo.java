@@ -1,4 +1,4 @@
-package com.wok.supportbot.record;
+package com.wok.supportbot.entity;
 
 import lombok.Data;
 

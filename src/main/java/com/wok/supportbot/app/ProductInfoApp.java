@@ -1,14 +1,13 @@
 package com.wok.supportbot.app;
 
 import com.wok.supportbot.advisor.MyLoggerAdvisor;
-import com.wok.supportbot.record.ProductInfo;
+import com.wok.supportbot.entity.ProductInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
@@ -59,6 +58,7 @@ public class ProductInfoApp {
                 .call()
                 .entity(ProductInfo.class);
         log.info("Extracted product info: {}", productInfo);
+        // todo 保存到数据库
         return productInfo;
     }
 }

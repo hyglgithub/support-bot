@@ -2,8 +2,7 @@ package com.wok.supportbot;
 
 import com.wok.supportbot.app.AssistantApp;
 import com.wok.supportbot.app.ProductInfoApp;
-import com.wok.supportbot.record.AssistantReport;
-import com.wok.supportbot.record.ProductInfo;
+import com.wok.supportbot.entity.ProductInfo;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -67,6 +66,14 @@ class SupportBotApplicationTests {
 
         // 你可以打印结果，方便调试
         System.out.println("提取的商品信息: " + productInfo);
+    }
+
+    @Test
+    void doChatWithRag() {
+        String chatId = UUID.randomUUID().toString();
+        String message = "T恤怎么搭配？";
+        String answer =  assistantApp.doChatWithRag(message, chatId);
+        Assertions.assertNotNull(answer);
     }
 
 
