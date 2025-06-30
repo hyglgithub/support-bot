@@ -1,4 +1,4 @@
-package com.wok.supportbot.transform;
+package com.wok.supportbot.document.transform;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;

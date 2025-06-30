@@ -1,4 +1,4 @@
-package com.wok.supportbot.transform;
+package com.wok.supportbot.document.transform;
 
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.model.ChatModel;

@@ -1,4 +1,4 @@
-package com.wok.supportbot.extract;
+package com.wok.supportbot.document.extract;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;

@@ -1,4 +1,4 @@
-package com.wok.supportbot.extract;
+package com.wok.supportbot.document.extract;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.JsonReader;

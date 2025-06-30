@@ -1,6 +1,9 @@
 package com.wok.supportbot.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.wok.supportbot.app.AssistantApp;
+import com.wok.supportbot.app.ProductInfoApp;
+import com.wok.supportbot.entity.ProductInfo;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
@@ -20,6 +23,21 @@ public class AiController {
 
     @Resource
     private AssistantApp assistantApp;
+    @Resource
+    private ProductInfoApp productInfoApp;
+
+
+    /**
+     * 同步调用 AI 提取结构化商品信息
+     *
+     * @param message
+     * @return
+     */
+    @GetMapping("/product_info_app/chat/sync")
+    public String doChatWithProductInfoAppSync(String message) {
+        ProductInfo productInfo = productInfoApp.extractProductInfo(message);
+        return JSONUtil.toJsonStr(productInfo);
+    }
 
     /**
      * 同步调用 AI 智能客服应用
