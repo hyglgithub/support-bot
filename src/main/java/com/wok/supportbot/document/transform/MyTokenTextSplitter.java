@@ -10,7 +10,7 @@ import java.util.List;
  * 自定义基于 Token 的切词器
  */
 @Component
-class MyTokenTextSplitter {
+public class MyTokenTextSplitter {
 
     /**
      * 使用默认设置创建分割器。

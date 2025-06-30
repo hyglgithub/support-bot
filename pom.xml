@@ -101,6 +101,12 @@
             <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
             <version>1.0.0-M7</version>
         </dependency>-->
+        <!-- spring-ai-tika-document-reader -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-tika-document-reader</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>

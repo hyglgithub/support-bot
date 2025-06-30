@@ -18,7 +18,8 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 
 
-
+@RestController
+@RequestMapping("/ai")
 public class AiController {
 
     @Resource
