@@ -1,15 +1,13 @@
 package com.wok.supportbot;
 
-import com.wok.supportbot.preretrieval.CompressionQueryRewriter;
-import com.wok.supportbot.preretrieval.MultiQueryExpanderRewriter;
-import com.wok.supportbot.preretrieval.RewriteQueryRewriter;
-import com.wok.supportbot.preretrieval.TranslationQueryRewriter;
-import jakarta.annotation.Resource;
+import com.wok.supportbot.rag.preretrieval.CompressionQueryRewriter;
+import com.wok.supportbot.rag.preretrieval.MultiQueryExpanderRewriter;
+import com.wok.supportbot.rag.preretrieval.RewriteQueryRewriter;
+import com.wok.supportbot.rag.preretrieval.TranslationQueryRewriter;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.rag.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

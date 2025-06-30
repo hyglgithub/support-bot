@@ -3,6 +3,10 @@ package com.wok.supportbot.app;
 import com.wok.supportbot.advisor.MyLoggerAdvisor;
 import com.wok.supportbot.advisor.ReReadingAdvisor;
 import com.wok.supportbot.chatmemory.DatabaseChatMemory;
+import com.wok.supportbot.rag.preretrieval.CompressionQueryRewriter;
+import com.wok.supportbot.rag.preretrieval.MultiQueryExpanderRewriter;
+import com.wok.supportbot.rag.preretrieval.RewriteQueryRewriter;
+import com.wok.supportbot.rag.preretrieval.TranslationQueryRewriter;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -22,6 +26,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +46,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class AssistantApp {
 
     @Resource
-    private VectorStore vectorStore;
+    private VectorStore pgVectorVectorStore;
 
     private final ChatClient chatClient;
 
@@ -90,6 +95,33 @@ public class AssistantApp {
         return chatResponse.getResult().getOutput().getText();
     }
 
+    /**
+     * AI 基础对话（支持多轮对话记忆，SSE 流式传输）
+     *
+     * @param message
+     * @param chatId
+     * @return
+     */
+    public Flux<String> doChatByStream(String message, String chatId) {
+        return chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                .stream()
+                .content();
+    }
+
+    // AI 恋爱知识库问答功能
+    @Resource
+    RewriteQueryRewriter rewriteQueryRewriter;
+    @Resource
+    CompressionQueryRewriter compressionQueryRewriter;
+    @Resource
+    MultiQueryExpanderRewriter multiQueryExpanderRewriter;
+    @Resource
+    TranslationQueryRewriter translationQueryRewriter;
+
 
     /**
      * 和 RAG 知识库进行对话
@@ -99,13 +131,17 @@ public class AssistantApp {
      * @return
      */
     public String doChatWithRag(String message, String chatId) {
+        // 在预检索阶段，系统接收用户的原始查询，通过查询转换和查询扩展等方法对其进行优化，输出增强的用户查询。
+        // String rewrittenMessage = translationQueryRewriter.doQueryRewrite(message);
+        String rewrittenMessage = rewriteQueryRewriter.doQueryRewrite(message);
+
         ChatResponse chatResponse = chatClient
                 .prompt()
-                .user(message)
+                .user(rewrittenMessage)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 // 应用 RAG 知识库问答
-                .advisors(QuestionAnswerAdvisor.builder(vectorStore)
+                .advisors(QuestionAnswerAdvisor.builder(pgVectorVectorStore)
                         // 相似度阈值为 0.0，并返回最相关的前 4 个结果
                         .searchRequest(SearchRequest.builder().similarityThreshold(0.0).topK(4).build())
                         .build())
@@ -121,7 +157,7 @@ public class AssistantApp {
     private MultiQueryExpander multiQueryExpander;
 
     /**
-     * 和 RAG 知识库进行对话
+     * 和 RAG 知识库进行对话(另外一种使用方式)
      *
      * @param message
      * @param chatId
@@ -129,10 +165,11 @@ public class AssistantApp {
      */
     public String doChatWithRagEnhance(String message, String chatId) {
         Advisor retrievalAugmentationAdvisor = RetrievalAugmentationAdvisor.builder()
+                // todo 不生效
                 //.queryTransformers(queryTransformers)
                 //.queryExpander(multiQueryExpander)
                 .documentRetriever(VectorStoreDocumentRetriever.builder()
-                        .vectorStore(vectorStore)
+                        .vectorStore(pgVectorVectorStore)
                         .similarityThreshold(0.5)
                         .topK(4)
                         .build())

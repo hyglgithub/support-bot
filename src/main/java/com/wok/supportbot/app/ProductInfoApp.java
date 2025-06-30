@@ -45,16 +45,13 @@ public class ProductInfoApp {
     /**
      * 商品信息结构化抽取
      * @param rawContent 爬取的商品网页内容
-     * @param chatId 对话ID
      * @return 结构化的商品信息对象
      */
-    public ProductInfo extractProductInfo(String rawContent, String chatId) {
+    public ProductInfo extractProductInfo(String rawContent) {
         ProductInfo productInfo = chatClient
                 .prompt()
                 .system(SYSTEM_PROMPT)
                 .user(rawContent)
-                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .call()
                 .entity(ProductInfo.class);
         log.info("Extracted product info: {}", productInfo);

@@ -1,4 +1,4 @@
-package com.wok.supportbot.config;
+package com.wok.supportbot.rag.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;

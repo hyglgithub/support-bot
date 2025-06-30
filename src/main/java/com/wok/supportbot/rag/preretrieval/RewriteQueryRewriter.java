@@ -1,4 +1,4 @@
-package com.wok.supportbot.preretrieval;
+package com.wok.supportbot.rag.preretrieval;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;

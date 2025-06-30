@@ -1,6 +1,5 @@
 package com.wok.supportbot;
 
-import com.wok.supportbot.preretrieval.RewriteQueryRewriter;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

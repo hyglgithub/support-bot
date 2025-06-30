@@ -44,12 +44,8 @@ class SupportBotApplicationTests {
         String rawContent = "这是商品标题：智能手表Pro 2025，" +
                 "描述：这款智能手表支持心率监测和GPS，" +
                 "价格：299美元，评分：4.7星，评论数：1567，品牌：TechBrand，分类：电子产品。";
-
-        // 生成随机聊天ID，模拟独立会话
-        String chatId = UUID.randomUUID().toString();
-
         // 调用方法
-        ProductInfo productInfo = productInfoApp.extractProductInfo(rawContent, chatId);
+        ProductInfo productInfo = productInfoApp.extractProductInfo(rawContent);
 
         // 断言结果不为空
         Assertions.assertNotNull(productInfo);

@@ -1,10 +1,8 @@
-package com.wok.supportbot.preretrieval;
+package com.wok.supportbot.rag.preretrieval;
 
 import org.springframework.ai.chat.client.ChatClient;
 
-import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.rag.Query;
 import org.springframework.ai.rag.preretrieval.query.transformation.CompressionQueryTransformer;
